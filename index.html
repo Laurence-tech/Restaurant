@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ember & Oak — Modern Fire Kitchen, Cape Town</title>
+  <meta name="description" content="Ember & Oak is a modern live-fire restaurant in Cape Town. Seasonal ingredients, considered wine, and a room built for long dinners. Reserve a table online.">
+  <meta name="theme-color" content="#1C1512">
+
+  <!--
+    ============================================================
+    LAURS — RESTAURANT TEMPLATE (built from scratch)
+    ============================================================
+    Demo brand: "Ember & Oak". Re-skin for a client by editing:
+      1. Tokens   → :root custom properties, top of styles.css
+      2. Copy     → search this file for "Ember & Oak" / "EMBER"
+      3. Images   → every <img> is an Unsplash placeholder
+      4. Contact  → phone/email/WhatsApp/address appear in the
+                    reservation bar, Contact section and footer
+      5. Config   → script.js has a CONFIG object for the
+                    WhatsApp number, phone number and hours
+    ============================================================
+  -->
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="restaurant.restaurant">
+  <meta property="og:title" content="Ember & Oak — Modern Fire Kitchen">
+  <meta property="og:description" content="A modern live-fire restaurant in Cape Town. Reserve a table online.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1200&q=80">
+
+  <!-- Fonts: Bodoni Moda (display) + Sora (UI / body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400;1,6..96,500&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Structured data — helps Google show hours, rating, price range in search -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+    "name": "Ember & Oak",
+    "servesCuisine": "Modern European, Live-fire",
+    "priceRange": "R R R",
+    "telephone": "+27000000000",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "22 Kiln Road",
+      "addressLocality": "Cape Town",
+      "postalCode": "8001",
+      "addressCountry": "ZA"
+    },
+    "image": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1200&q=80",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": "612"
+    },
+    "openingHoursSpecification": [
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Tuesday","Wednesday","Thursday"], "opens": "17:30", "closes": "22:00" },
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Friday","Saturday"], "opens": "12:00", "closes": "23:00" },
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "12:00", "closes": "16:00" }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ============ SCROLL PROGRESS ============ -->
+  <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
+
+  <!-- ============ PRELOADER ============ -->
+  <div class="preloader" id="preloader" aria-hidden="true">
+    <span class="preloader__mark">E&nbsp;&amp;&nbsp;O</span>
+  </div>
+
+  <!-- ============ HEADER / NAV ============ -->
+  <header class="site-header" id="siteHeader">
+    <div class="container site-header__inner">
+      <a href="#top" class="brand" aria-label="Ember & Oak — home">
+        <span class="brand__mark">Ember <em>&amp;</em> Oak</span>
+      </a>
+
+      <nav class="nav" id="primaryNav" aria-label="Primary">
+        <ul class="nav__list">
+          <li><a href="#dishes">Dishes</a></li>
+          <li><a href="#menu">Menu</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#chef">Chef</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="site-header__actions">
+        <button class="theme-toggle" id="themeToggle" aria-pressed="false" aria-label="Switch to dark mode">
+          <i class="fa-solid fa-moon" aria-hidden="true"></i>
+        </button>
+        <a href="#reserve" class="btn btn--primary btn--sm">Reserve a Table</a>
+        <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="top">
+      <div class="hero__media">
+        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1800&q=80"
+             alt="Dimly lit fine-dining dining room with warm pendant lighting" loading="eager" width="1800" height="1200">
+        <div class="hero__scrim"></div>
+      </div>
+
+      <div class="container hero__inner">
+        <p class="eyebrow eyebrow--light" data-reveal>Cape Town · Live-Fire Kitchen</p>
+        <h1 class="hero__title" data-reveal>Where fire<br>meets flavor.</h1>
+        <p class="hero__desc" data-reveal>
+          Ember &amp; Oak is a modern kitchen built around the open flame —
+          seasonal ingredients, considered wine, and a room designed for
+          dinners that run long.
+        </p>
+
+        <div class="hero__cta" data-reveal>
+          <a href="#reserve" class="btn btn--primary">
+            <i class="fa-regular fa-calendar-check" aria-hidden="true"></i> Reserve a Table
+          </a>
+          <a href="#menu" class="btn btn--glass">
+            <i class="fa-solid fa-bag-shopping" aria-hidden="true"></i> Order Online
+          </a>
+          <a href="https://wa.me/27000000000" target="_blank" rel="noopener" class="btn btn--outline-light">
+            <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+          </a>
+        </div>
+
+        <ul class="hero__trust" data-reveal>
+          <li><i class="fa-solid fa-star" aria-hidden="true"></i> 4.9 rating · 612 reviews</li>
+          <li>Featured in <em>Eat Cape Town</em></li>
+          <li>Est. 2016</li>
+        </ul>
+      </div>
+
+      <a href="#dishes" class="hero__scroll-cue" aria-label="Scroll to featured dishes">
+        <span></span>
+      </a>
+    </section>
+
+    <!-- ============ FEATURED DISHES ============
+         Numbered as tasting-menu courses — a real convention on
+         fine-dining menus, not a decorative counter. -->
+    <section class="dishes" id="dishes">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <p class="eyebrow">The tasting flight</p>
+          <h2 class="section-title">Six dishes,<br>one fire.</h2>
+          <p class="section-desc">A short list of what the kitchen is known for right now. The full menu changes with the seasons — this doesn't.</p>
+        </div>
+
+        <div class="dish-grid">
+          <article class="dish-card" data-reveal data-tilt>
+            <span class="dish-card__course">I</span>
+            <div class="dish-card__media">
+              <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=700&q=80" alt="Wood-fired ribeye sliced and plated with charred herbs" loading="lazy" width="700" height="560">
+            </div>
+            <div class="dish-card__body">
+              <h3>Wood-Fired Ribeye</h3>
+              <p>35-day dry aged, bone marrow butter, charred spring onion.</p>
+              <span class="dish-card__price">R395</span>
+            </div>
+          </article>
+
+          <article class="dish-card" data-reveal data-tilt>
+            <span class="dish-card__course">II</span>
+            <div class="dish-card__media">
+              <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=700&q=80" alt="Charred octopus with smoked paprika oil" loading="lazy" width="700" height="560">
+            </div>
+            <div class="dish-card__body">
+              <h3>Charred Octopus</h3>
+              <p>Smoked paprika oil, crushed potato, salsa verde.</p>
+              <span class="dish-card__price">R245</span>
+            </div>
+          </article>
+
+          <article class="dish-card" data-reveal data-tilt>
+            <span class="dish-card__course">III</span>
+            <div class="dish-card__media">
+              <img src="https://images.unsplash.com/photo-1551782450-a2132b4ba21d?auto=format&fit=crop&w=700&q=80" alt="Burnt butter agnolotti pasta with sage" loading="lazy" width="700" height="560">
+            </div>
+            <div class="dish-card__body">
+              <h3>Burnt Butter Agnolotti</h3>
+              <p>Roast pumpkin, sage, aged parmesan, brown butter.</p>
+              <span class="dish-card__price">R215</span>
+            </div>
+          </article>
+
+          <article class="dish-card" data-reveal data-tilt>
+            <span class="dish-card__course">IV</span>
+            <div class="dish-card__media">
+              <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=700&q=80" alt="Chef plating a beetroot tart with smoked yoghurt" loading="lazy" width="700" height="560">
+            </div>
+            <div class="dish-card__body">
+              <h3>Smoked Beetroot Tart</h3>
+              <p>Whipped goat's curd, candied walnut, beetroot leaf oil.</p>
+              <span class="dish-card__price">R185</span>
+            </div>
+          </article>
+
+          <article class="dish-card" data-reveal data-tilt>
+            <span class="dish-card__course">V</span>
+            <div class="dish-card__media">
+              <img src="https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?auto=format&fit=crop&w=700&q=80" alt="Ember roasted cauliflower whole on a plate" loading="lazy" width="700" height="560">
+            </div>
+            <div class="dish-card__body">
+              <h3>Ember Roasted Cauliflower</h3>
+              <p>Whole roasted, almond romesco, pickled currant.</p>
+              <span class="dish-card__price">R165</span>
+            </div>
+          </article>
+
+          <article class="dish-card" data-reveal data-tilt>
+            <span class="dish-card__course">VI</span>
+            <div class="dish-card__media">
+              <img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=700&q=80" alt="Dark chocolate and olive oil dessert" loading="lazy" width="700" height="560">
+            </div>
+            <div class="dish-card__body">
+              <h3>Dark Chocolate &amp; Olive Oil</h3>
+              <p>66% cocoa, extra virgin olive oil, sea salt, toasted brioche.</p>
+              <span class="dish-card__price">R145</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ MENU ============ -->
+    <section class="menu" id="menu">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <p class="eyebrow">Order online or dine in</p>
+          <h2 class="section-title">The Menu</h2>
+          <p class="section-desc">Indicative selection — full menu and daily specials are handed out at the table.</p>
+        </div>
+
+        <div class="menu-tabs" data-reveal>
+          <div class="menu-tabs__nav" role="tablist" aria-label="Menu categories">
+            <button class="menu-tabs__btn is-active" role="tab" aria-selected="true" data-tab="starters">Starters</button>
+            <button class="menu-tabs__btn" role="tab" aria-selected="false" data-tab="mains">Mains</button>
+            <button class="menu-tabs__btn" role="tab" aria-selected="false" data-tab="desserts">Desserts</button>
+            <button class="menu-tabs__btn" role="tab" aria-selected="false" data-tab="drinks">Drinks</button>
+          </div>
+
+          <div class="menu-tabs__panel is-active" id="panel-starters" role="tabpanel">
+            <ul class="menu-list">
+              <li><div><span>Charred Octopus</span><p>Smoked paprika oil, crushed potato</p></div><i></i><span>R245</span></li>
+              <li><div><span>Smoked Beetroot Tart</span><p>Whipped goat's curd, candied walnut</p></div><i></i><span>R185</span></li>
+              <li><div><span>Ember Roasted Cauliflower</span><p>Almond romesco, pickled currant</p></div><i></i><span>R165</span></li>
+              <li><div><span>Tartare of the Day</span><p>Ask your server — market fish or beef</p></div><i></i><span>R195</span></li>
+            </ul>
+          </div>
+
+          <div class="menu-tabs__panel" id="panel-mains" role="tabpanel" hidden>
+            <ul class="menu-list">
+              <li><div><span>Wood-Fired Ribeye</span><p>35-day dry aged, bone marrow butter</p></div><i></i><span>R395</span></li>
+              <li><div><span>Burnt Butter Agnolotti</span><p>Roast pumpkin, sage, aged parmesan</p></div><i></i><span>R215</span></li>
+              <li><div><span>Whole Roasted Chicken</span><p>Charred lemon, salsa verde, jus</p></div><i></i><span>R255</span></li>
+              <li><div><span>Catch of the Day</span><p>Ember roasted, brown butter, capers</p></div><i></i><span>R285</span></li>
+            </ul>
+          </div>
+
+          <div class="menu-tabs__panel" id="panel-desserts" role="tabpanel" hidden>
+            <ul class="menu-list">
+              <li><div><span>Dark Chocolate &amp; Olive Oil</span><p>66% cocoa, sea salt, toasted brioche</p></div><i></i><span>R145</span></li>
+              <li><div><span>Burnt Basque Cheesecake</span><p>Macerated berries</p></div><i></i><span>R135</span></li>
+              <li><div><span>Affogato</span><p>Espresso, vanilla bean gelato, amaretti</p></div><i></i><span>R95</span></li>
+            </ul>
+          </div>
+
+          <div class="menu-tabs__panel" id="panel-drinks" role="tabpanel" hidden>
+            <ul class="menu-list">
+              <li><div><span>Sommelier's Red</span><p>By the glass, rotating selection</p></div><i></i><span>R95</span></li>
+              <li><div><span>Sommelier's White</span><p>By the glass, rotating selection</p></div><i></i><span>R95</span></li>
+              <li><div><span>Smoked Old Fashioned</span><p>House infusion, oak bitters</p></div><i></i><span>R125</span></li>
+              <li><div><span>Fever Tree &amp; Fresh Citrus</span><p>Non-alcoholic</p></div><i></i><span>R55</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
+    <section class="about" id="about">
+      <div class="container about__inner">
+        <div class="about__media" data-reveal>
+          <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=800&q=80" alt="Warm, softly lit dining room at Ember & Oak" loading="lazy" width="800" height="950">
+          <div class="about__media-tag">Est. 2016</div>
+        </div>
+
+        <div class="about__content" data-reveal>
+          <p class="eyebrow">Our story</p>
+          <h2 class="section-title">Cooked over<br>one element.</h2>
+          <p class="about__lede">
+            Ember &amp; Oak opened with a single restriction: everything on
+            the plate touches fire. No shortcuts, no gas rings backstage —
+            just wood, coals, and a kitchen that plans each menu around
+            what's in season.
+          </p>
+
+          <div class="about__stats">
+            <div class="stat"><span class="stat__num">9</span><span class="stat__label">Years open</span></div>
+            <div class="stat"><span class="stat__num">4</span><span class="stat__label">Seasonal menus / yr</span></div>
+            <div class="stat"><span class="stat__num">40k+</span><span class="stat__label">Covers served</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CHEF ============ -->
+    <section class="chef" id="chef">
+      <div class="container chef__inner">
+        <div class="chef__media" data-reveal>
+          <img src="https://images.unsplash.com/photo-1583394293214-28ded15ee548?auto=format&fit=crop&w=700&q=80" alt="Portrait of Chef Elena Marchetti in the kitchen" loading="lazy" width="700" height="820">
+        </div>
+        <div class="chef__content" data-reveal>
+          <p class="eyebrow">Head chef</p>
+          <h2 class="section-title">Elena Marchetti</h2>
+          <blockquote class="chef__quote">
+            "Fire doesn't forgive a bad ingredient. It just tells you the truth about it — that's why we cook this way."
+          </blockquote>
+          <p class="chef__bio">
+            Elena trained across Italy and the Basque coast before opening
+            Ember &amp; Oak's kitchen in 2016. She sources within a
+            150km radius wherever possible and rebuilds the menu with
+            every change of season.
+          </p>
+          <ul class="chef__credentials">
+            <li><i class="fa-solid fa-award" aria-hidden="true"></i> Eat Cape Town — Chef of the Year, 2023</li>
+            <li><i class="fa-solid fa-fire" aria-hidden="true"></i> 15 years cooking over open flame</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ WHY CHOOSE US ============ -->
+    <section class="why">
+      <div class="container">
+        <div class="section-head section-head--light" data-reveal>
+          <p class="eyebrow">Why guests come back</p>
+          <h2 class="section-title">Why Choose Us</h2>
+        </div>
+
+        <div class="why__grid">
+          <div class="why-card" data-reveal>
+            <span class="why-card__icon"><i class="fa-solid fa-leaf" aria-hidden="true"></i></span>
+            <h3>Fresh Ingredients</h3>
+            <p>Sourced within 150km, delivered daily, never frozen.</p>
+          </div>
+          <div class="why-card" data-reveal>
+            <span class="why-card__icon"><i class="fa-solid fa-bolt" aria-hidden="true"></i></span>
+            <h3>Fast Service</h3>
+            <p>Attentive without rushing — courses paced to the table.</p>
+          </div>
+          <div class="why-card" data-reveal>
+            <span class="why-card__icon"><i class="fa-solid fa-people-roof" aria-hidden="true"></i></span>
+            <h3>Family Friendly</h3>
+            <p>A kids' menu and a room that welcomes long tables.</p>
+          </div>
+          <div class="why-card" data-reveal>
+            <span class="why-card__icon"><i class="fa-solid fa-wine-glass" aria-hidden="true"></i></span>
+            <h3>Fine Dining</h3>
+            <p>Considered plating and a wine list built to match it.</p>
+          </div>
+          <div class="why-card" data-reveal>
+            <span class="why-card__icon"><i class="fa-solid fa-fire-flame-curved" aria-hidden="true"></i></span>
+            <h3>Great Atmosphere</h3>
+            <p>Low light, live fire, a room built for slow dinners.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ GALLERY ============ -->
+    <section class="gallery" id="gallery">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <p class="eyebrow">Inside the room</p>
+          <h2 class="section-title">Gallery</h2>
+        </div>
+
+        <div class="gallery__masonry">
+          <button class="gallery__item" data-reveal data-full="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1400&q=85" aria-label="Enlarge photo of the dining room">
+            <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=600&q=80" alt="Dining room" loading="lazy" width="600" height="750">
+          </button>
+          <button class="gallery__item" data-reveal data-full="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1400&q=85" aria-label="Enlarge photo of the open fire kitchen">
+            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80" alt="Open fire in the kitchen" loading="lazy" width="600" height="450">
+          </button>
+          <button class="gallery__item" data-reveal data-full="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1400&q=85" aria-label="Enlarge photo of a plated dish">
+            <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80" alt="Plated ribeye" loading="lazy" width="600" height="750">
+          </button>
+          <button class="gallery__item" data-reveal data-full="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1400&q=85" aria-label="Enlarge photo of a table setting">
+            <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=600&q=80" alt="Table setting" loading="lazy" width="600" height="450">
+          </button>
+          <button class="gallery__item" data-reveal data-full="https://images.unsplash.com/photo-1551782450-a2132b4ba21d?auto=format&fit=crop&w=1400&q=85" aria-label="Enlarge photo of pasta being plated">
+            <img src="https://images.unsplash.com/photo-1551782450-a2132b4ba21d?auto=format&fit=crop&w=600&q=80" alt="Pasta being plated" loading="lazy" width="600" height="750">
+          </button>
+          <button class="gallery__item" data-reveal data-full="https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?auto=format&fit=crop&w=1400&q=85" aria-label="Enlarge photo of the bar area">
+            <img src="https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?auto=format&fit=crop&w=600&q=80" alt="Bar area" loading="lazy" width="600" height="450">
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ TESTIMONIALS ============ -->
+    <section class="testimonials" id="testimonials">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <p class="eyebrow">Guest notes</p>
+          <h2 class="section-title">What people say</h2>
+        </div>
+
+        <div class="testi-grid">
+          <figure class="testi-card testi-card--lg" data-reveal>
+            <div class="testi-card__stars" aria-hidden="true">★★★★★</div>
+            <blockquote>"Best meal we've had in Cape Town this year. The ribeye alone is worth the drive, and the room makes you want to stay for hours."</blockquote>
+            <figcaption><span>Naledi P.</span><i class="fa-brands fa-google" aria-hidden="true"></i></figcaption>
+          </figure>
+          <figure class="testi-card" data-reveal>
+            <div class="testi-card__stars" aria-hidden="true">★★★★★</div>
+            <blockquote>"Booked for an anniversary dinner — everything from the welcome to the last course was considered."</blockquote>
+            <figcaption><span>James O.</span><i class="fa-brands fa-google" aria-hidden="true"></i></figcaption>
+          </figure>
+          <figure class="testi-card" data-reveal>
+            <div class="testi-card__stars" aria-hidden="true">★★★★★</div>
+            <blockquote>"The tasting flight is the smartest way to try the kitchen. Six dishes, no bad ones."</blockquote>
+            <figcaption><span>Chloé M.</span><i class="fa-brands fa-google" aria-hidden="true"></i></figcaption>
+          </figure>
+          <figure class="testi-card" data-reveal>
+            <div class="testi-card__stars" aria-hidden="true">★★★★★</div>
+            <blockquote>"Brought the whole family, kids included. Nobody rushed us and the kids' menu was genuinely good."</blockquote>
+            <figcaption><span>Robert K.</span><i class="fa-brands fa-google" aria-hidden="true"></i></figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ RESERVATION ============ -->
+    <section class="reserve" id="reserve">
+      <div class="container reserve__inner">
+        <div class="reserve__media" data-reveal>
+          <img src="https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?auto=format&fit=crop&w=800&q=80" alt="Table set for dinner service" loading="lazy" width="800" height="950">
+          <div class="reserve__hours">
+            <h4>Hours</h4>
+            <ul>
+              <li><span>Tue – Thu</span><span>17:30 – 22:00</span></li>
+              <li><span>Fri – Sat</span><span>12:00 – 23:00</span></li>
+              <li><span>Sunday</span><span>12:00 – 16:00</span></li>
+              <li><span>Monday</span><span>Closed</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="reserve__form-wrap" data-reveal>
+          <p class="eyebrow">Book a table</p>
+          <h2 class="section-title">Reservations</h2>
+          <p class="section-desc">Tables for 7 or more, please call us directly so we can set up the room properly.</p>
+
+          <form class="reserve-form" id="reserveForm" novalidate>
+            <div class="form-row">
+              <label for="rName">Full name</label>
+              <input type="text" id="rName" name="name" autocomplete="name" required>
+            </div>
+            <div class="form-row form-row--split">
+              <div>
+                <label for="rDate">Date</label>
+                <input type="date" id="rDate" name="date" required>
+              </div>
+              <div>
+                <label for="rTime">Time</label>
+                <input type="time" id="rTime" name="time" required>
+              </div>
+            </div>
+            <div class="form-row form-row--split">
+              <div>
+                <label for="rGuests">Guests</label>
+                <select id="rGuests" name="guests">
+                  <option>1</option><option>2</option><option selected>3</option>
+                  <option>4</option><option>5</option><option>6</option>
+                </select>
+              </div>
+              <div>
+                <label for="rPhone">Phone</label>
+                <input type="tel" id="rPhone" name="phone" autocomplete="tel" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <label for="rNotes">Occasion / notes</label>
+              <textarea id="rNotes" name="notes" rows="3" placeholder="Anniversary, allergies, seating preference…"></textarea>
+            </div>
+            <button type="submit" class="btn btn--primary btn--full">Request Reservation</button>
+            <p class="form-status" id="reserveStatus" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ MAP ============ -->
+    <section class="map">
+      <div class="container">
+        <div class="map__frame" data-reveal>
+          <iframe
+            title="Ember & Oak location on Google Maps"
+            src="https://www.google.com/maps?q=Cape+Town+City+Centre&output=embed"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section class="contact" id="contact">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <p class="eyebrow">Get in touch</p>
+          <h2 class="section-title">Contact</h2>
+        </div>
+
+        <ul class="contact-grid" data-reveal>
+          <li>
+            <i class="fa-solid fa-phone" aria-hidden="true"></i>
+            <span>Phone</span>
+            <a href="tel:+27000000000">+27 00 000 0000</a>
+          </li>
+          <li>
+            <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+            <span>Email</span>
+            <a href="mailto:hello@emberandoak.example">hello@emberandoak.example</a>
+          </li>
+          <li>
+            <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+            <span>WhatsApp</span>
+            <a href="https://wa.me/27000000000" target="_blank" rel="noopener">Message us</a>
+          </li>
+          <li>
+            <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+            <span>Address</span>
+            <a href="#">22 Kiln Road, Cape Town, 8001</a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-footer">
+    <div class="container site-footer__grid">
+      <div class="site-footer__brand">
+        <span class="brand__mark">Ember <em>&amp;</em> Oak</span>
+        <p>A modern live-fire kitchen in Cape Town.</p>
+        <div class="social-links">
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>
+          <a href="https://wa.me/27000000000" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <nav class="site-footer__col" aria-label="Quick navigation">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="#dishes">Dishes</a></li>
+          <li><a href="#menu">Menu</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#chef">Chef</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#reserve">Reservations</a></li>
+        </ul>
+      </nav>
+
+      <div class="site-footer__col">
+        <h4>Business Hours</h4>
+        <ul class="hours">
+          <li><span>Tue – Thu</span><span>17:30 – 22:00</span></li>
+          <li><span>Fri – Sat</span><span>12:00 – 23:00</span></li>
+          <li><span>Sunday</span><span>12:00 – 16:00</span></li>
+          <li><span>Monday</span><span>Closed</span></li>
+        </ul>
+      </div>
+
+      <div class="site-footer__col site-footer__newsletter">
+        <h4>Stay in the loop</h4>
+        <p>Seasonal menu launches, a few times a year. No spam.</p>
+        <form class="newsletter-form" id="newsletterForm">
+          <label for="newsletterEmail" class="sr-only">Email address</label>
+          <input type="email" id="newsletterEmail" placeholder="you@email.com" required>
+          <button type="submit" aria-label="Subscribe"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+        </form>
+      </div>
+    </div>
+
+    <div class="site-footer__bottom">
+      <div class="container site-footer__bottom-inner">
+        <p>&copy; <span id="year"></span> Ember &amp; Oak. All rights reserved.</p>
+        <p class="site-footer__credit">Template crafted by <strong>LAURS</strong></p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============ SIGNATURE: STICKY RESERVATION BAR ============
+       Slides up once the hero is scrolled past — the persistent
+       conversion mechanism the whole page is built around. -->
+  <div class="reserve-bar" id="reserveBar" aria-hidden="true">
+    <div class="reserve-bar__inner">
+      <span class="reserve-bar__label"><i class="fa-solid fa-fire-flame-curved" aria-hidden="true"></i> Table for tonight?</span>
+      <div class="reserve-bar__actions">
+        <a href="tel:+27000000000" class="reserve-bar__icon-btn" aria-label="Call the restaurant"><i class="fa-solid fa-phone" aria-hidden="true"></i></a>
+        <a href="https://wa.me/27000000000" target="_blank" rel="noopener" class="reserve-bar__icon-btn" aria-label="Message on WhatsApp"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></a>
+        <a href="#reserve" class="btn btn--primary btn--sm">Reserve a Table</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating WhatsApp -->
+  <a href="https://wa.me/27000000000" target="_blank" rel="noopener" class="whatsapp-float" aria-label="Chat with us on WhatsApp">
+    <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+  </a>
+
+  <!-- Back to top -->
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">
+    <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
+  </button>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="lightbox__close" id="lightboxClose" aria-label="Close image">&times;</button>
+    <img src="" alt="" id="lightboxImg">
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
